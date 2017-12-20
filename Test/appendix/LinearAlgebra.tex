@@ -1,0 +1,28 @@
+\chapter{Linear Algebra}
+
+A matrix $\matr{A}$ has elements $A_{ij}$ where $i$ indexes the rows, and $j$ indexes the columns. We use $\matr{I}_N$ to denote the $N \times N$ identity matrix (also called the unit matrix) and where there is no ambiguity over dimensionality we simply use $\matr{I}$. The transpose matrix $\matr{A}^T$ has elements $(\matr{A}^T)_{ij} = \matr{A}_{ji}$. From the definition of transpose, we have
+
+\textcolor[rgb]{0.80,0.00,0.02}{Show example}
+
+\begin{equation}\label{eq:transposedefinition}
+  (\matr{A}\matr{B})^T = \matr{B}^T\matr{A}^T
+\end{equation}
+
+which can be verified by writing out the indices. The inverse of $\matr{A}$ denoted $\matr{A}^{-1}$ satisfies
+
+\begin{equation}\label{eq:inversedefinition}
+  \matr{A}\matr{A}^{-1} = \matr{A}^{-1}\matr{A} = \matr{I}
+\end{equation}
+
+Because $\matr{A}\matr{B}\matr{B}^{-1}\matr{A}^{-1} = \matr{I}$, we have
+
+\begin{equation}\label{eq:inverseparantesedefinition}
+  (\matr{A}\matr{A})^{-1} = \matr{B}^{-1}\matr{A}^{-1}
+\end{equation}
+
+Also we have
+
+\begin{equation}\label{eq:inversetranposedefinition}
+  (\matr{A}^T)^{-1} = (\matr{A}^{-1})^{T}
+\end{equation}
+

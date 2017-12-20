@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BABEL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[danish, english]{babel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FONTS and ENCODING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% See:
+% http://tex.stackexchange.com/questions/59702/suggest-a-nice-font-family-for-my-basic-latex-template-text-and-math-i-am
+% http://tex.stackexchange.com/questions/44694/fontenc-vs-inputenc
+
+\usepackage{lmodern}        % Latin Modern family of fonts. Very much like Computer Modern, but with many more glyphs
+% (e.g., for characters with accents, glyphs, cedillas, etc)
+%\usepackage[T1]{fontenc}    % fontenc is oriented to output, that is, what fonts to use for printing characters.
+% http://tex.stackexchange.com/questions/44694/fontenc-vs-inputenc
+% http://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
+
+% Change some fonts or the whole font family (i.e. serif, sans serif, monospace, and 'math')
+% \usepackage[varg, cmintegrals, cmbraces, ]{newtxtext,newtxmath}  % Other options: libertine, uprightGreek (U.S.) or slantedGreek (ISO), etc...
+% \usepackage{tgtermes}                                            % Only serif ("TeX-Gyre" text)
+% \usepackage{kpfonts}                                             % "Kepler" fonts
+% \usepackage{mathpazo}                                            % Based on Hermann Zapf's Palatino font
+%  - \usepackage{mathptmx}
+%  - \usepackage[scaled=.90]{helvet}
+%  - \usepackage{courier}
+
+% \usepackage{textcomp}     % required for special glyphs
+%\usepackage[utf8]{inputenc} % inputenc allows the user to input accented characters directly from the keyboard;
+% utf8x : much broader but less compatible ; latin1 : old?
+% http://tex.stackexchange.com/questions/44694/fontenc-vs-inputenc
+
+%Put fontenc before inputenc
+\usepackage{fourier} %Better typeface
+%http://mirrors.dotsrc.org/ctan/fonts/fourier-GUT/doc/latex/fourier/fourier-doc-en.pdf
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% See:
+% ftp://ftp.ams.org/pub/tex/doc/amsmath/short-math-guide.pdf
+% http://tex.stackexchange.com/questions/32100/what-does-each-ams-package-do
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics
+% Mathtools documentation:
+% http://mirrors.dotsrc.org/ctan/macros/latex/contrib/mathtools/mathtools.pdf
+%
+\usepackage{mathtools}    % loads mathtools (including  amstext, amsbsy, amsopn but not amssymb)
+% equation stuff (eqref, subequations, equation, align, gather, flalign, multline, alignat, split...)
+%\usepackage{amssymb}      % may be redundant with mathtools
+%\usepackage{amsfonts}     % redundant with amssymb
+%\usepackage{amsthm}       % Used for theorems
+%\usepackage{mathrsfs}    % Scripts font
+%\usepackage{standalone}
+%\usepackage{preview}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LAYOUT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% See:
+% http://tex.stackexchange.com/questions/59626/nicely-force-66-characters-per-line
+% (must be after pslatex, tgterms, etc...)
+%
+% a) (but works mostly for a4paper, and changes top and bottom margin too...)
+% \usepackage[DIV=calc]{typearea}
+%
+% or
+%
+% b) (but you have to choose the value and the margin ratio depending on the class...)
+% \newlength{\alphabet}
+% \settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
+\usepackage{geometry}	% very customizable margins. Under some (rare)
