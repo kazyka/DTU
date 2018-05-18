@@ -1,0 +1,465 @@
+\PassOptionsToPackage{utf8}{inputenc}
+  \usepackage{inputenc}
+
+\PassOptionsToPackage{T1}{fontenc} % T2A for cyrillics
+  \usepackage{fontenc}
+
+\PassOptionsToPackage{
+  danish,
+  english
+}{babel}
+\usepackage{babel}
+
+% ********************************************************************
+% finetuning
+% ********************************************************************
+
+
+\newcounter{dummy} % necessary for correct hyperlinks (to index, bib, etc.)
+\newlength{\abcd} % for ab..z string length calculation
+\DeclareRobustCommand{\spacedlowsmallcaps}[1]{\textls[80]{\scshape\MakeTextLowercase{#1}}}
+\DeclareRobustCommand{\spacedallcaps}[1]{\textls[160]{\MakeTextUppercase{#1}}}
+
+% ********************************************************************
+% LAYOUT
+% ********************************************************************
+
+\makeatletter
+\@ifclassloaded{report}{%
+\usepackage[lmargin=122pt,rmargin=75pt,tmargin=127pt,bmargin=123pt]{geometry}
+}{%
+\usepackage[lmargin=75pt,rmargin=75pt,tmargin=127pt,bmargin=123pt]{geometry}
+}
+\makeatother
+
+\PassOptionsToPackage{flushmargin}{footmisc}%
+    \RequirePackage{footmisc}%
+    \setlength{\footnotemargin}{-.5em}%
+
+\usepackage{fancyhdr}
+\usepackage{lastpage} % Required to determine the last page for the footer
+%\usepackage{extramarks} % Required for headers and footers
+%\usepackage{courier} % Required for the courier font
+
+\fancypagestyle{main}{%
+  \fancyhead{} % clear all fields
+  \setlength{\headheight}{15.2pt}
+  \fancyhead[RO,LE]{\bfseries \thepage}
+  \fancyhead[RE,LO]{\bfseries\nouppercase\rightmark}
+  \fancyfoot[RE,LO]{}
+  \fancyfoot[LO,CE]{}
+  \fancyfoot[CO,RE]{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\fancypagestyle{frontmatter}{%
+  \fancyhf{}
+  \setlength{\headheight}{15.2pt}
+  \fancyhead[RO,LE]{\bfseries \thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \setlength{\headheight}{15.2pt}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside%
+    \ifodd\c@page\else
+    \vspace*{\fill}
+    \hfill
+    \begin{center}
+    This page is intentionally left blank.
+    \end{center}
+    %\vspace{\fill}
+    \thispagestyle{empty}
+    \newpage
+    \if@twocolumn\hbox{}\newpage\fi\fi\fi
+}
+\makeatother
+
+\usepackage{lipsum}
+
+% ********************************************************************
+%  TOC
+% ************************************************************
+\PassOptionsToPackage{titles}{tocloft}
+\RequirePackage{tocloft}
+
+
+\makeatletter
+\@ifclassloaded{report}{%
+% avoid page numbers being right-aligned in fixed-size box
+\newlength{\newnumberwidth}
+\settowidth{\newnumberwidth}{999} % yields overfull hbox warnings for pages > 999
+\cftsetpnumwidth{\newnumberwidth}
+
+% have the bib neatly positioned after the rest
+\newlength{\beforebibskip}
+\setlength{\beforebibskip}{0em}
+% space for more than nine chapters
+\newlength{\newchnumberwidth}
+\settowidth{\newchnumberwidth}{.} % <--- tweak here if more space required
+\addtolength{\cftchapnumwidth}{\newchnumberwidth}%
+\addtolength{\cftsecnumwidth}{\newchnumberwidth}
+\addtolength{\cftsecindent}{\newchnumberwidth}
+\addtolength{\cftsubsecnumwidth}{\newchnumberwidth}
+\addtolength{\cftsubsecindent}{2\newchnumberwidth}
+\addtolength{\cftsubsubsecnumwidth}{\newchnumberwidth}
+}{%
+}
+\makeatother
+
+% ********************************************************************
+% footnotes setup
+% ********************************************************************
+
+\PassOptionsToPackage{flushmargin}{footmisc}%
+\RequirePackage{footmisc}%
+\setlength{\footnotemargin}{-.5em}%
+
+%----------------------------------------------------------------------------------------
+%	FONTS %% MATH
+%----------------------------------------------------------------------------------------
+
+
+\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
+
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+%\PassOptionsToPackage{euler-digits}{eulervm}%
+%         \RequirePackage{eulervm} % Euler math fonts
+
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{bm}
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+% ********************************************************************
+% Loading some handy packages
+% ************************************************************
+
+\usepackage{ragged2e}
+
+\usepackage{csquotes}
+\PassOptionsToPackage{%
+  %backend=biber,bibencoding=utf8, %instead of bibtex
+  backend=bibtex8,bibencoding=ascii,%
+  language=auto,%
+  style=numeric-comp,%
+  %style=authoryear-comp, % Author 1999, 2010
+  %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
+  sorting=nyt, % name, year, title
+  maxbibnames=10, % default: 3, et al.
+  %backref=true,%
+  natbib=true % natbib compatibility mode (\citep and \citet still work)
+}{biblatex}
+    \usepackage{biblatex}
+
+%\usepackage{parskip}  % Removes paragraph indentation
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+%http://www.ctan.org/pkg/parskip
+%http://tex.stackexchange.com/questions/51722/how-to-properly-code-a-tex-file-or-at-least-avoid-badness-10000
+%Never use \\ but instead press "enter" twice. See second website for more info
+
+\usepackage{float}              % Improved interface for floating objects ; add [H] option
+% always load this before hyperref
+
+\usepackage{textcomp} % fix warning with missing font shapes
+\usepackage{scrhack} % fix warnings when using KOMA with listings package
+\usepackage{xspace} % to get the spacing after macros right
+\usepackage{mparhack} % get marginpar right
+%\usepackage{fixltx2e} % fixes some LaTeX stuff --> since 2015 in the LaTeX kernel (see below)
+% \usepackage[latest]{latexrelease} % emulate newer kernel version if older is detected
+\PassOptionsToPackage{printonlyused,smaller}{acronym}
+  \usepackage{acronym} % nice macros for handling all acronyms in the thesis
+  %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
+  %\renewcommand*{\acsfont}[1]{\textsc{#1}}
+  %\renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
+  %\def\bflabel#1{{#1\hfill}}
+  \def\bflabel#1{{\acsfont{#1}\hfill}}
+  \def\aclabelfont#1{\acsfont{#1}}
+
+% *************************************************************
+%  Setup floats: tables, (sub)figures, and captions
+% ****************************************************************
+
+\usepackage{tabularx} % better tables
+  \setlength{\extrarowheight}{3pt} % increase table row height
+\newcommand{\tableheadline}[1]{\multicolumn{1}{l}{\spacedlowsmallcaps{#1}}}
+\newcommand{\myfloatalign}{\centering} % to be used with each float for alignment
+\usepackage{caption}
+% Thanks to cgnieder and Claus Lahiri
+% http://tex.stackexchange.com/questions/69349/spacedlowsmallcaps-in-caption-label
+% [REMOVED DUE TO OTHER PROBLEMS, SEE ISSUE #82]
+%\DeclareCaptionLabelFormat{smallcaps}{\bothIfFirst{#1}{~}\MakeTextLowercase{\textsc{#2}}}
+%\captionsetup{font=small,labelformat=smallcaps} % format=hang,
+\captionsetup{font=small} % format=hang,
+\usepackage{subfig}
+
+% *************************************************************
+%  Colors
+% ****************************************************************
+
+\PassOptionsToPackage{dvipsnames}{xcolor}
+    \RequirePackage{xcolor} % [dvipsnames]
+\definecolor{halfgray}{gray}{0.55} % chapter numbers will be semi transparent .5 .55 .6 .0
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{ocre}{RGB}{243,102,25} % Define the orange color used for highlighting throughout the book
+\definecolor{Maroon}{cmyk}{0, 0.87, 0.68, 0.32}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\definecolor{Black}{cmyk}{0, 0, 0, 0}
+
+% *************************************************************
+% Tikz
+% ****************************************************************
+
+% See:
+% http://tex.stackexchange.com/questions/42611/list-of-available-tikz-libraries-with-a-short-introduction
+%
+% !Important! If you load tikz, note that it loads the graphicx package.
+% To get the correct options for the graphicx package use
+% \PassOptionsToPackage{<options>}{graphicx}
+
+%http://mirrors.dotsrc.org/ctan/macros/latex/contrib/xcolor/xcolor.pdf
+%http://texdoc.net/texmf-dist/doc/latex/colortbl/colortbl.pdf
+%
+\usepackage{tikz} %documentation http://www.ctan.org/pkg/pgf
+ \usetikzlibrary{
+ arrows,             % Arrow tip library
+ automata,           % Used for drawing "finite state automata and Turing Machines"
+ backgrounds,        % Background library for background pictures
+ calc,               % Make complex coordinate caculations
+ chains,
+ fit,                % Allows us to fit a square around multiple nodes
+ intersections,      % Calculates intersections of paths
+ decorations.pathmorphing,
+ patterns,
+ matrix,             % Matrix Library
+ mindmap,            % Mind map library
+ shapes,             % Shape library, used to define shapes other than rectangle, circle and co-ordinate
+ shadows,
+ plotmarks,
+ }
+\usepackage{pgfplots} % Load sids
+\pgfplotsset{compat=1.15}
+
+% *************************************************************
+% CODE
+% ****************************************************************
+
+\usepackage{listings}
+%\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
+
+\lstdefinestyle{mylatex}{language=[LaTeX]Tex,%C++,
+  morekeywords={PassOptionsToPackage,selectlanguage},
+  keywordstyle=\color{RoyalBlue},%\bfseries,
+  basicstyle=\small\ttfamily,
+  %identifierstyle=\color{NavyBlue},
+  commentstyle=\color{Green}\ttfamily,
+  stringstyle=\rmfamily,
+  numbers=left,%none,%
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  numberstyle=\scriptsize,%\tiny
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}},
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  %frameround=ftff,
+  %frame=single,
+  belowcaptionskip=.75\baselineskip
+  %frame=L
+}
+
+% *************************************************************
+% THEOREM
+% ****************************************************************
+
+
+\usepackage[framemethod=default]{mdframed}
+
+\newtheoremstyle{stylename}% name of the style to be used
+  {0pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {0pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {\normalfont}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\scshape}% name of head font
+  {.}% punctuation between head and body
+  {\newline}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+
+%
+%\newcounter{dummy}
+%\numberwithin{dummy}{section}
+%\theoremstyle{stylename}
+%\newtheorem{theoremeT}[dummy]{Theorem}
+%\newtheorem{problem}{Problem}[chapter]
+%\newtheorem{exerciseT}{Exercise}[chapter]
+%\newtheorem{exampleT}{Example}[chapter]
+%\newtheorem{vocabulary}{Vocabulary}[chapter]
+%\newtheorem{definitionT}{Definition}[section]
+%\newtheorem{corollaryT}[dummy]{Corollary}
+%\newtheorem{proposition}[dummy]{Proposition}
+
+%% Theorem box
+%\newmdenv[skipabove=7pt,
+%skipbelow=7pt,
+%backgroundcolor=black!50,
+%linecolor=black!0,
+%innerleftmargin=0pt,
+%innerrightmargin=5pt,
+%innertopmargin=5pt,
+%leftmargin=0cm,
+%rightmargin=0cm,
+%innerbottommargin=5pt]{tBox}
+%
+%% Exercise box	
+%\newmdenv[skipabove=7pt,
+%skipbelow=7pt,
+%rightline=false,
+%leftline=true,
+%topline=false,
+%bottomline=false,
+%backgroundcolor=ocre!10,
+%linecolor=ocre,
+%innerleftmargin=5pt,
+%innerrightmargin=5pt,
+%innertopmargin=5pt,
+%innerbottommargin=5pt,
+%leftmargin=0cm,
+%rightmargin=0cm,
+%linewidth=4pt]{eBox}	
+
+
+\numberwithin{dummy}{section}
+\theoremstyle{stylename}
+\newtheorem{theoremeT}[dummy]{Theorem}
+\newtheorem{problem}{Problem}[section]
+\newtheorem{exerciseT}{Exercise}[section]
+\newtheorem{exampleT}{Eksempel}[section]
+\newtheorem{vocabulary}{Vocabulary}[section]
+\newtheorem{definitionT}{Definition}[section]
+\newtheorem{corollaryT}[section]{Corollary}
+\newtheorem{proposition}[section]{Proposition}
+
+
+
+% Definition box
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=false,
+topline=false,
+bottomline=false,
+linecolor=black,
+backgroundcolor=black!0,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt,
+innerbottommargin=5pt]{dBox}	
+
+
+
+\newenvironment{theorem}{\begin{dBox}\begin{theoremeT}}{\end{theoremeT}\end{dBox}}
+\newenvironment{exercise}{\begin{eBox}\begin{exerciseT}}{\hfill{\color{ocre}}\end{exerciseT}\end{eBox}}				
+\newenvironment{definition}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}	
+\newenvironment{example}{\begin{dBox}\begin{exampleT}}{\end{exampleT}\end{dBox}}
+
+% ********************************************************************
+% Own Stuff
+% ********************************************************************
+% Disable single lines at the start of a paragraph (Schusterjungen)
+\clubpenalty = 10000
+% Disable single lines at the end of a paragraph (Hurenkinder)
+\widowpenalty = 10000
+\displaywidowpenalty = 10000 % formulas
+% Graffiti as in GKP's book "Concrete Mathematics"
+% thanks to Lorenzo Pantieri and Enrico Gregorio
+\def\graffito@setup{%
+%   \slshape\footnotesize% this was due to \slhape in above book
+   \itshape\footnotesize\leavevmode\color{Black}%
+   \parindent=0pt \lineskip=0pt \lineskiplimit=0pt %
+   \tolerance=2000 \hyphenpenalty=300 \exhyphenpenalty=300%
+   \doublehyphendemerits=100000%
+   \finalhyphendemerits=\doublehyphendemerits}
+%\DeclareRobustCommand{\graffito}[1]{\marginpar%
+% [\graffito@setup\raggedleft\hspace{0pt}{#1}]%
+% {\graffito@setup\raggedright\hspace{0pt}{#1}}}
+
+\let\oldmarginpar\marginpar
+\renewcommand{\marginpar}[2][]{% always add optional parameter, make it empty by default
+   \if\relax\detokenize{#1}\relax% optional parameter empty, in all normal document calls
+      \oldmarginpar[\graffito@setup\raggedleft\hspace{0pt}#2]{\graffito@setup\raggedright\hspace{0pt}#2}%
+   \else%two parameters, let them use their styling
+      \oldmarginpar[#1]{#2}%
+   \fi%
+}
+
+
+% Enumeration environment with small caps
+\newenvironment{aenumerate}
+    {\def\theenumi{\textsc{\alph{enumi}}}%
+     \enumerate}
+    {\endenumerate}
+
+% ********************************************************************
+%  PDFLaTeX, hyperreferences, and citation backreferences
+% ********************************************************************
+% ********************************************************************
+% Using PDFLaTeX
+% ********************************************************************
+
+
+\usepackage[toc,page]{appendix} %tilføler appendix
+
+\usepackage[draft,danish]{fixme} %Danish latex book
+
+\usepackage{imakeidx} %laver indeks med angivent antal kollonner og titel
+\makeindex[columns=2, title=Indeks]
+\usepackage[totoc]{idxlayout} %tilføler indeks til toc
+
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[update,prepend]{epstopdf}
+\graphicspath{{pictures/}}
+\hypersetup{%
+  %draft, % hyperref's draft mode, for printing see below
+  colorlinks=true, linktocpage=true, pdfstartpage=3, pdfstartview=FitV,%
+  % uncomment the following line if you want to have black links (e.g., for printing)
+  %colorlinks=false, linktocpage=false, pdfstartpage=3, pdfstartview=FitV, pdfborder={0 0 0},%
+  breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
+  plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+  hypertexnames=true, pdfhighlight=/O,%nesting=true,%frenchlinks,%
+  urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
+  %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
+  pdftitle={},%
+  pdfauthor={},%
+  pdfsubject={},%
+  pdfkeywords={},%
+  pdfcreator={pdfLaTeX},%
+  pdfproducer={LaTeX with hyperref and classicthesis}%
+}
+
+

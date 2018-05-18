@@ -1,0 +1,217 @@
+\chapter{Lecture 6}
+
+This lecture is about \texttt{Sub-Space Methods
+[PCA, CCA, PCR, PLS]} where chapter \texttt{ESL Chapter 14.5.1,
+14.5.5 and 3.5} should be looked upon.
+
+\begin{itemize}
+  \item PCA - Principal Component Analysis
+  \begin{itemize}
+    \item The review to rule them all
+    \item The dos and dont's
+    \item Applications
+  \end{itemize}
+  \item PCR - Principal Component Regression
+  \item PLS - Partial Least Squares
+  \item CCA - Canonical Correlation Analysis
+\end{itemize}
+
+\section{Chapter 14.5.1}
+
+Chapter 14 is about unsupervised learning. This section is about the PCA
+
+\section{Chapter 14.5.5}
+
+This section is about the SPC, which is the Sparce Principal Components
+
+\section{Chapter 3.5}
+
+This chapter is about Linear Methods for Regression, while this section is about methods using derived input directions. Here we will talk about the PCR and PLS
+
+\section{PCA}
+
+So we know that regression and classification are confirmatory. What this means is:
+
+\begin{itemize}
+  \item Answers to particular questions
+  \begin{itemize}
+    \item Does wine-drinking influence heart disease? (regression)
+    \item How well can we separate between normal and abnormal ECG? (classification)
+  \end{itemize}
+  \item Supervised - solutions are governed by the outcome variable
+\end{itemize}
+
+PCA is exploratory from lecture \cite[p.~8]{lecture6}
+
+This mean, that
+
+\begin{itemize}
+  \item Explore examples of typical (common) observations based on data set
+  \item Unsupervised, no outcome variable - let data speak for itself
+  \begin{itemize}
+    \item Structure in data
+    \item Outlier detection
+    \item Dimensionality reduction (data compression)
+  \end{itemize}
+\end{itemize}
+
+Principal components are discussed in Sections 3.4.1 \cite{friedman2016elements}, where they shed light
+on the shrinkage mechanism of ridge regression. Principal components are
+a sequence of projections of the data, mutually uncorrelated and ordered
+in variance.
+
+The principal components of a set data in $\mathbb{R}^p$ provide a sequence of best linear approximations to that data of all ranks $q \leq p$
+
+If we have 100 observations that occupy 75\% of 1-D space. Then we would need $100^{10} $ observations to get the same coverage in 10 dimensions.
+
+\subsection{PCA - idea}
+
+The idea behind PCA, is that we have a linear transformation of data: $S = XL$\\
+
+We preserve relations between variables $S = XL$ s.t. $L^T L = I$\\
+
+With the PCA we have $\bm{Z}$ observations, then we center the data by removing the mean $\bm{X} = \bm{Z} - \mu_Z$, then we rotate the coordinate system, first axes in direction of maximal variance and then the observations are given as coordinates in a new coordinate system. $s_i = p_i L$ and $s_i = (s_{i1} , s_{i2})$\\
+
+PCa idea is a linear transformation of data $S = XL$ and to preserve relations between variables $S = XL$ subject to $L^T L = I$\\
+
+From lecture \cite[p.~15-20]{lecture6}, then the PCA derivation is\\
+
+We have the transformation
+\[
+    S = XL, \quad L^TL = I
+\]
+
+We maximize variance of projected data, which means the maximize variance of each PC/columns of S
+
+\[
+    \text{cov}(S) = \frac{1}{n} S^T S = \frac{1}{n} L^T X^T XL = L^T \Sigma L, \quad \Sigma = \text{cov}(X)
+\]
+
+The first PC
+
+\begin{equation}
+  \begin{split}
+     \arg \max\limits_I I^T \Sigma I & \text{ s.t.} I^T - I = 1 \\
+     L_P =  & \lambda(I^T I - 1) \\
+     \frac{\partial L_p}{\partial I}  = 2 \Sigma I - 2 \lambda I = 0 \& \Leftrightarrow \Sigma I = \lambda I
+  \end{split}
+\end{equation}
+
+This is the Eigenvalue problem: Covariance is maximized for l equal to the eigenvector of $\Sigma$ corresponding to the largest eigenvalue $\lambda$ .
+
+Remaining PCs: Orthogonalize data wrt previous components and
+repeat. But! $L$ is orthogonal, so no need to orthogonalize. Eigenvectors and -values are the solutions.
+
+S is the score and the size is $n \times p$ and PC's are uncorrelated - $S^T S $ is diagonal.
+
+Where L is the loadings, size is $n \times p$ and columns are known as the principal axes. It is a rotation matrix $L^T L = I$
+
+With Gaussian data we have $x_i \in N(\mu, \Sigma)$ and transformed data is $s_i \in N(0, D)$ with
+
+\[
+    D = \left[
+    \begin{array}{ccc}
+      \sigma^2_1 & \cdot & 0 \\
+      \vdots & \ddots & \vdots \\
+      0 & \cdots & \sigma^2_k
+    \end{array} \right]
+\]
+
+where $\sigma^2_1 \geq ... \geq \sigma^2_k$
+
+
+So the singular value decomposition of $X$
+
+\[
+    X = UDV^T
+\]
+
+Here $U$ is and $N \times p$ orthogonal matrix $(U^T U = I_p)$ whose columns $u_j$ are called left singular vectors.
+
+$V$ is a $p \times p$ orthogonal matrix $(V^T V = I_p)$ with columns $v_j$ called the right singular vectors, and $D$ is a $p \times p$ diagonal matrix, with diagonal elements $d_1 \geq d_2 \geq ... \geq d_p \geq 0$ known as the singular values.
+
+\section{Sparce PCA}
+
+The methods discussed here, are deriving the principal components with sparse loading. They are all based on lasso $L_1$ penalties.
+
+Since we use a $L_1$ penalty, then the constraint from \cite[p.~550]{friedman2016elements} encourages some of the loadings to be zero.
+
+Further sparse principal components are found in the same way, by forcing the k'th component to be orthogonal to the first $k-1$ components. Unfortunately this problem is not convex and the computations are difficult.
+
+Instead use a regression/reconstruction property of PCA.
+
+From lecture \cite[p.~51]{lecture6} express each PC as a regression problem
+
+\[
+    \arg \min\limits_I || s_i - XI ||^2
+\]
+
+Then optimize wrt. $I$ using the score $s_i$ from PCA. This will give the loadings from PCA.
+
+The problem is that it cannot be solved when $p > n$ (samples > variables). The \textbf{solution} is \textbf{ridge regression}
+
+\[
+    \arg \min\limits_I || s_i - XI ||^2 + \lambda || I ||^2
+\]
+
+then Normalize solution to unit length
+
+\subsection{SPCA using the elastic net}
+
+Add a $L_1$ penalty to get sparse solutions
+
+\[
+    \arg \min\limits_I || s_i - XI ||^2 + \lambda || I ||^2 + \gamma ||I||_1
+\]
+
+the main Drawback, solution is guided by the original principal components. \cite[p.~52]{lecture6}
+
+\section{Principal Component Regression, PCR}
+
+From lecture \cite[p.~54]{lecture6} and \cite[p.~79]{friedman2016elements} then Principal component regression forms the derived input columns. WE have the scores S. Use $[s_1, s_2, ..., s_M]$ for some $M \leq p$ and we have a standard regression problem in a new variables
+
+\[
+    y = \beta_0 + [s_1,..., s_M] \beta + e
+\]
+
+PCR handles n < p by operating on a subset of PCs. PCR performs similar to ridge regression and Equivalent to OLS when M = p
+
+\section{Partial Least Squares}
+
+\begin{itemize}
+  \item Supervised method with latent variable structure
+  \item Seeks directions which have high variance and have high correlation with the response
+  \item Tune number of PLS components
+\end{itemize}
+
+From lecture \cite[p.~55]{lecture6} and \cite[p.~80]{friedman2016elements}. This technique also constructs a set of linear combinations of the inputs
+for regression, but unlike principal components regression it uses $y$ (in addition to $X$) for this construction.\\
+
+The m'th PLS direction $\varphi_m$ solves
+
+\[
+    \max\limits_\alpha Corr^2 (y, X \alpha) Var(X \alpha)
+\]
+Subject to
+
+\[
+    ||\alpha|| = 1, \alpha^T \Sigma \varphi_I = 0, I=1, ..., m-1
+\]
+
+
+Further analysis reveals that the variance aspect tends to dominate, and so partial least squares behaves much like ridge regression and principal components regression from \cite[p.~82]{friedman2016elements} and from lecture \cite[p.~56]{lecture6}
+
+\begin{itemize}
+  \item Behaves similar to ridge regression and principal component regression in shrinking coefficient estimates.
+  \item Shrink low variance directions (like ridge)
+  \item Can inflate high variance directions
+\end{itemize}
+
+
+\section{Canonical Correlation Analysis}
+
+\cite[p.~65]{lecture6} 
+
+From Wiki:
+
+In statistics, canonical-correlation analysis (CCA) is a way of inferring information from cross-covariance matrices. If we have two vectors $X = (X_1, ..., X_n$) and $Y = (Y_1, ..., Y_m)$ of random variables, and there are correlations among the variables, then canonical-correlation analysis will find linear combinations of the $X_i$ and $Y_j$ which have maximum correlation with each other 

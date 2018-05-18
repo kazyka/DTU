@@ -1,0 +1,149 @@
+\chapter{Lecture 10}
+
+This lecture is about \texttt{Unsupervised Decomposition
+[SC, NMF, AA, ICA]} where chapter \texttt{ESL Chapter 14.6, 14.7.
+Article “Sparse Coding”
+Nature} should be looked upon.
+
+\section{Chapter 14.6}
+
+This chapter is about Non-negative Matrix Factorization
+
+\section{14.7}
+
+This chapter is about Independent Component Analysis and
+Exploratory Projection Pursuit
+
+\begin{itemize}
+  \item A short introduction to unsupervised learning and Factor analysis
+  \item Non-negative Matrix Factorization
+  \item Archetypal Analysis
+  \item Independent Component Analysis
+  \item Sparse Coding
+\end{itemize}
+
+Decomposition-the process of finding hidden internal representation of the data, i.e., to decompose the data into its internal representations.
+
+Guiding Principle-simplicity of the representation.
+
+\section{Non-negative Matrix Factorization}
+
+It is a approach to principal components analysis, in which the data
+and components are assumed to be non-negative. It is useful for modeling
+non-negative data such as images.
+
+The $N \times p$ data matrix $\bm{X}$ is approximated by
+
+\[
+    \bm{X} \approx \bm{W} \bm{H}, \quad w_{ij} \geq 0, h_{ij} \geq 0
+\]
+
+The problem, however, cannot be solved analytically so it is generally approximated numerically.
+
+We want to decompose a matrix into a product of two matrixes which makes it easier to work with
+than the original matrix:
+
+User can specify the inner dimension of $W$ (number of
+columns) as long as it is less then number of rows of
+$W$ and number of columns of $H$ .
+
+However, there is a potentially serious problem with
+non-negative matrix factorization. Even in situations where $\bm{X} = \bm{W} \bm{H}$ holds exactly, the decomposition may not be unique.
+
+\section{Archetypal Analysis}
+
+Very similar to Previous NMF, but the data points are approximated by prototypes that are
+themselves linear combination of data points:
+
+So, might work really good if we have a lot of information stored in similar clusters that are easily
+represented by a subset of samples.
+
+\section{Independent Component Analysis}
+
+While PCA is about correlation and maximising variance (good
+for reconstruction). ICA - TRYING TO MAXIMIZE INDEPENDENCE. 
+
+It tries to find a linear transformation from sample feature space to a new feature space such that each of the individual new features are mutually independent = Mutual information of zero:
+
+\[
+    I(y_i, y_j) = 0
+\]
+
+and mutual information between $y$ and $x$ is maximised
+
+From lecture \cite[p.~22]{lecture10}, then ICA is a modern approach to the rotational ambiguity. The factorization is
+
+\[
+    \bm{X} = \bm{A}\bm{S}
+\]
+
+We can assume $\bm{X}$ is pre-whitened such that $\bm{X}\bm{X}^T = \bm{I}$ if this is not the case perform SVD, such that
+
+\[
+    \bm{X} = \bm{U} \bm{\Sigma} \bm{V}^T
+\]
+
+Where each of the columns of $\bm{X}$ is a linear combination of the columns of $\bm{S}$. Now since $\bm{U}$ is orthogonal, and assuming as before that the columns of $\bm{X}$ (and hence $\bm{U}$) each have mean zero, this implies that the columns of $\bm{S}$ have zero mean, are uncorrelated and have unit variance. In terms of random variables, we can interpret the SVD, or the corresponding principal component analysis (PCA) as an estimate of a latent variable model from \cite[p.~558]{friedman2016elements}
+
+And perform ICA on $\bm{Y} = \bm{V}$, so
+
+\[
+    [\bm{\tilde{A}, \bm{S}}] = \text{ICA}(\bm{Y})
+\]
+
+Then from lecture \cite[p.~22]{lecture10} then $\bm{X} = \bm{U} \bm{\Sigma} \bm{\tilde{A}} \bm{S} = \bm{A} \bm{S}$ where $\bm{A} = \bm{U}  \bm{\Sigma} \bm{\tilde{A}}$
+
+Independent implies that $\bm{S}$ is uncorrelated (weaker condition):
+
+\[
+    \bm{S}\bm{S}^T = \bm{I}
+\]
+
+But as
+
+\[
+    \bm{Y}\bm{Y}^T = \bm{\tilde{A}}\bm{S}\bm{S}^T\bm{\tilde{A}}^T = \bm{\tilde{A}}\bm{\tilde{A}}^T = \bm{I}
+\]
+
+Thus ICA mounts to solving for an orthonormal matrix $\bm{\tilde{A}}$  such that
+
+\[
+    \bm{S} = \bm{\tilde{A}}^T \bm{Y}
+\]
+
+are independent and non-Gaussian.
+
+From both lecture \cite[p.~22-24]{lecture10} and \cite[p.~561]{friedman2016elements} then Many of the popular approaches to ICA are based on entropy. The differential entropy $H$ of a random variable $Y$ with density $g(y)$ is given by
+
+\[
+    H(Y) = - \int g(y) \log g(y) dy
+\]
+
+A well-known result in information theory says that among all random variables with equal variance, Gaussian variables have the maximum entropy. Finally the \textit{mutual information} $I(Y)$ between components of the random vector $Y$ is a natural measure of dependence
+
+\[
+    I(Y) = \sum_{j=1}^{P} H(Y_j) - H(Y)
+\]
+
+Add more from \cite[p.~561-562]{friedman2016elements} and lecture \cite[p.~24]{lecture10}
+
+So; In summary, ICA applied to multivariate data looks for a sequence of orthogonal projections such that the projected data look as far from Gaussian as possible. With pre-whitened data, this amounts to looking for components that are as independent as possible.
+
+\section{Sparse Coding}
+
+Begins from \cite[p.~33]{lecture10}
+
+From web:
+
+Sparse coding minimizes the objective
+
+\[
+    ||AS - X||^2_2 + \lambda ||S||_1
+\]
+
+In the equation A is a matrix of bases, S ia a matrix of codes and X is a matrix of data we wish to represent. $\lambda$ implements a trade of between sparsity and reconstruction.\\
+
+In the beginning, we do not have S however. Yet, many algorithms exist that can solve the objective above with respect to S. Actually, this is how we do inference: we need to solve an optimisation problem if we want to know the s belonging to an unseen  x \\
+
+
+Ultimate measure of sparsity given by $\ell_0$ norm. However, this results in NP-hard optimization! Instead the $\ell_1$ norm is commonly invoked. $\ell_1$ is a convex proxy for $\ell_0$
